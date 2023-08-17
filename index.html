@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Countdown Timer
-  </title>
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- Custom CSS -->
- </head>
- <body>
-  <!-- Countdown Timer Section -->
-  <section id="countdown">
-   <div class="timer">
-    01:00
-   </div>
-   <div class="message">
-    MatiXlo Was Here
-   </div>
-  </section>
-  <!-- Bootstrap & jQuery JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-  </script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
-  </script>
-  <!-- Custom JS -->
- </body>
-</html>
+$(document).ready(function() {
+            // Set the countdown time to 1 minute (60 seconds)
+            var countdownTime = 60;
+
+            // Update the countdown timer every second
+            var countdownInterval = setInterval(updateCountdown, 1000);
+
+            function updateCountdown() {
+                // Format the countdown time as mm:ss
+                var minutes = Math.floor(countdownTime / 60);
+                var seconds = countdownTime % 60;
+                var formattedTime = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+
+                // Display the formatted countdown time
+                $(".timer").text(formattedTime);
+
+                // Decrease the countdown time by 1 second
+                countdownTime--;
+
+                // When the countdown reaches 0, show the message
+                if (countdownTime < 0) {
+                    clearInterval(countdownInterval);
+                    $(".timer").hide();
+                    $(".message").show();
+                }
+            }
+        });
