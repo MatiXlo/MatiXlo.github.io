@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<title>Rebane's Discord Colored Text Generator</title>
+<title>Mati's Discord Colored  Text Generator</title>
 <meta charset="UTF-8">
-<meta name="description" content="Rebane's Discord Colored Text Generator">
-<meta name="author" content="rebane2001">
+<meta name="description" content="Mati's Discord Colored  Text Generator">
+<meta name="author" content="rebane2001 polish by matixlo">
 <style>
 /*
 This license applies to the entire page, not just the style block.
@@ -125,18 +125,18 @@ For more information, please refer to <https://unlicense.org>
 </style>
 </head>
 <body>
-<h1>Rebane's Discord <span style="color:#5865F2">Colored</span> Text Generator</h1>
+<h1>MatiXlo Discord  <span style="color:#5865F2">Kolorowamy</span> Generator Tekstu</h1>
 <div class="container">
-<h3>About</h3>
-<p>This is a simple app that creates colored Discord messages using the ANSI color codes available on the latest Discord desktop versions.</p>
-<p>To use this, write your text, select parts of it and assign colors to them, then copy it using the button below, and send in a Discord message.</p>
-<h3>Source Code</h3>
-<p>This app runs entirely in your browser and the source code is freely available on <a href="https://gist.github.com/rebane2001/07f2d8e80df053c70a1576d27eabe97c">GitHub</a>. Shout out to kkrypt0nn for <a href="https://gist.github.com/kkrypt0nn/a02506f3712ff2d1c8ca7c9e0aed7c06">this guide</a>.</p>
+<h3>Na temat</h3>
+<p>Polski Kolorowy Generator Tekstu Discord.</p>
+<p>Zrobiony przez Rebane ale edytowane przez MatiXlo.</p>
+<h3>Kod żródłowy</h3>
+<p>Kod jest tutaj! <a href="https://gist.github.com/rebane2001/07f2d8e80df053c70a1576d27eabe97c">Kod żródłowy</a>. <a href="https://gist.github.com/kkrypt0nn/a02506f3712ff2d1c8ca7c9e0aed7c06">this guide</a>.</p>
 </div>
-<h2>Create your text</h2>
-<button data-ansi="0" class="button style-button">Reset All</button>
-<button data-ansi="1" class="button style-button ansi-1">Bold</button>
-<button data-ansi="4" class="button style-button ansi-4">Line</button>
+<h2>Zrób swój tekst </h2>
+<button data-ansi="0" class="button style-button">Resetuj Wszystko</button>
+<button data-ansi="1" class="button style-button ansi-1">Boldowanie</button>
+<button data-ansi="4" class="button style-button ansi-4">Podkreślenie</button>
 <br><br>
 <strong>FG</strong>
 <button data-ansi="30" class="button style-button ansi-30-bg">&nbsp;</button>
@@ -160,10 +160,10 @@ For more information, please refer to <https://unlicense.org>
 <br><br>
 <div class="flex"><div id="textarea" contenteditable="true">Welcome to&nbsp;<span class="ansi-33">Rebane</span>'s <span class="ansi-45"><span class="ansi-37">Discord</span></span>&nbsp;<span class="ansi-31">C</span><span class="ansi-32">o</span><span class="ansi-33">l</span><span class="ansi-34">o</span><span class="ansi-35">r</span><span class="ansi-36">e</span><span class="ansi-37">d</span>&nbsp;Text Generator!</div></div>
 <br>
-<button class="button copy">Copy text as Discord formatted</button>
+<button class="button copy">Kopiuj tekst jako format Discorda</button>
 <br>
 <br>
-<small>This is an unofficial tool, it is not made or endorsed by Discord.</small>
+<small>To nie jest zrobione przez Discorda!.</small>
 <script type="text/javascript">
     const textarea = document.querySelector("#textarea");
     const copybtn = document.querySelector(".button.copy");
@@ -243,7 +243,7 @@ For more information, please refer to <https://unlicense.org>
         navigator.clipboard.writeText(toCopy).then(() => {
             if (copyTimeout) clearTimeout(copyTimeout);
 
-            const funnyCopyMessages = copybtn.innerText = ["Copied!", "Double Copy!", "Triple Copy!", "Dominating!!", "Rampage!!", "Mega Copy!!", "Unstoppable!!", "Wicked Sick!!", "Monster Copy!!!", "GODLIKE!!!", "BEYOND GODLIKE!!!!", Array(16).fill(0).reduce(p => p + String.fromCharCode(Math.floor(Math.random() * 65535)),"")];
+            const funnyCopyMessages = copybtn.innerText = ["Zkopiowane", "Podwójna kopia", "Triple Copy!", "Dominating!!", "Rampage!!", "Mega Copy!!", "Unstoppable!!", "Wicked Sick!!", "Monster Copy!!!", "GODLIKE!!!", "BEYOND GODLIKE!!!!", Array(16).fill(0).reduce(p => p + String.fromCharCode(Math.floor(Math.random() * 65535)),"")];
 
             copybtn.style.backgroundColor = (copyCount <= 8) ? "#3BA55D" : "#ED4245";
             copybtn.innerText = funnyCopyMessages[copyCount];
@@ -257,7 +257,7 @@ For more information, please refer to <https://unlicense.org>
         }, (err) => {
             // We don't need to stop the users if they get a little too excited about the button
             if (copyCount > 2) return;
-            alert("Copying failed for some reason, let's try showing an alert, maybe you can copy it instead.");
+            alert("Error nwm czm");
             alert(toCopy);
         });
     }
