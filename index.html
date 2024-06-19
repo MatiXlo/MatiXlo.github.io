@@ -1,7 +1,62 @@
-<h1>Fake Number Generator</h1>
-<label for="countryCode">Country Calling Code:</label><br>
-<input type="text" id="countryCode" name="countryCode"><br>
-<label for="numbers">Number of Phone Numbers:</label><br>
-<input type="number" id="numbers" name="numbers" min="1" max="10"><br>
-<button onclick="generateNumbers()">Generate Numbers</button><br>
-<div id="output"></div>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Czas do końca szkoły</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .countdown {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .countdown h1 {
+            margin-bottom: 20px;
+        }
+        .time {
+            font-size: 2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown">
+        <h1>Czas do końca szkoły</h1>
+        <div class="time" id="countdown"></div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const endDate = new Date('June 21, 2024 10:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = endDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML =
+                `${days} dni ${hours} godzin ${minutes} minut ${seconds} sekund`;
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById('countdown').innerHTML = "Koniec szkoły!";
+            }
+        }
+
+        const x = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
