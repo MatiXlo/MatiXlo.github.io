@@ -1,1 +1,1 @@
-Rebane's discord colored text generator but polish!
+Pokazuje ile do końca roku szkolengo
