@@ -13,6 +13,8 @@
             height: 100vh;
             background-color: #f0f0f0;
             margin: 0;
+            flex-direction: column;
+            gap: 20px;
         }
         .countdown {
             text-align: center;
@@ -33,30 +35,51 @@
 <body>
     <div class="countdown">
         <h1>Czas do końca szkoły</h1>
-        <div class="time" id="countdown"></div>
+        <div class="time" id="countdown1"></div>
+    </div>
+
+    <div class="countdown">
+        <h1>Czas do ogniska w Motańcu</h1>
+        <div class="time" id="countdown2"></div>
     </div>
 
     <script>
-        function updateCountdown() {
-            const endDate = new Date('June 21, 2024 10:00:00').getTime();
+        function updateCountdowns() {
+            const endDate1 = new Date('June 21, 2024 09:00:00').getTime();
+            const endDate2 = new Date('June 21, 2024 17:00:00').getTime();
             const now = new Date().getTime();
-            const distance = endDate - now;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const distance1 = endDate1 - now;
+            const distance2 = endDate2 - now;
 
-            document.getElementById('countdown').innerHTML =
-                `${days} dni ${hours} godzin ${minutes} minut ${seconds} sekund`;
+            const days1 = Math.floor(distance1 / (1000 * 60 * 60 * 24));
+            const hours1 = Math.floor((distance1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes1 = Math.floor((distance1 % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000);
 
-            if (distance < 0) {
+            const days2 = Math.floor(distance2 / (1000 * 60 * 60 * 24));
+            const hours2 = Math.floor((distance2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes2 = Math.floor((distance2 % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds2 = Math.floor((distance2 % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown1').innerHTML =
+                `${days1} dni ${hours1} godzin ${minutes1} minut ${seconds1} sekund`;
+
+            document.getElementById('countdown2').innerHTML =
+                `${days2} dni ${hours2} godzin ${minutes2} minut ${seconds2} sekund`;
+
+            if (distance1 < 0) {
                 clearInterval(x);
-                document.getElementById('countdown').innerHTML = "Koniec szkoły!";
+                document.getElementById('countdown1').innerHTML = "Koniec szkoły!";
+            }
+
+            if (distance2 < 0) {
+                clearInterval(x);
+                document.getElementById('countdown2').innerHTML = "Czas na ognisko!";
             }
         }
 
-        const x = setInterval(updateCountdown, 1000);
+        const x = setInterval(updateCountdowns, 1000);
     </script>
 </body>
 </html>
