@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -16,10 +16,8 @@
         .pulsing-text {
             font-size: 5em;
             color: #000;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
             animation: pulse 1.5s infinite;
+            cursor: pointer;
         }
         @keyframes pulse {
             0% {
@@ -28,15 +26,29 @@
             50% {
                 transform: scale(1.2);
                 color: #ff0000;
-                background-color: #000;
             }
             100% {
                 transform: scale(1);
             }
         }
+        .glitch {
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.75);
+        }
     </style>
 </head>
 <body>
-    <div class="pulsing-text">Dusza Vadera</div>
+    <div class="pulsing-text" onclick="triggerGlitch(this)">Dusza Vadera</div>
+
+    <script>
+        function triggerGlitch(element) {
+            element.classList.add('glitch');
+            element.innerHTML = 'Ḑ̶̢̙̤̖̥̭̣̲͙͔̦͗̑̆̆̈́̓̇̾̉̄̉̂͜͜͠͝͠ŭ̷̧̠̮͓͓̾̅̄͐̃͒̌͐́̂͊̍̄̍͝s̸̲͕̅̐̀͛̀͛̅͝z̷͈̿́̍̌̏̑͊̑̌̓̿͌á̷̩̤̖̳͇̹̻̙͍͍̭̭̈ͅͅ ̴̧̬͍̙̩̹̞̮̗̄V̷̥̹̮̾a̵͇̩̠̐̃̑d̵̩͈̩̦͍̯̊́̆́̏̈̍̚͠e̴͇͈͎͎̮͔̪͖͍̲̺̞̎̚͜ŗ̸̨̤̫͈̬͓̬͚̞͈̼͔̈́̿̎͐̈́̌̕͝ͅa̸̡͖̰͓͉͎͉͙̰̳̗̠͎̤̗̮͗͒͐̋̑';
+
+            setTimeout(() => {
+                element.classList.remove('glitch');
+                element.innerHTML = 'Dusza Vadera';
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
