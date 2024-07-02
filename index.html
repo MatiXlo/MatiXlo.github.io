@@ -1,85 +1,42 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Czas do końca szkoły</title>
+    <title>Dusza Vadera</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
             margin: 0;
-            flex-direction: column;
-            gap: 20px;
+            background-color: #000;
         }
-        .countdown {
-            text-align: center;
+        .pulsing-text {
+            font-size: 5em;
+            color: #000;
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: pulse 1.5s infinite;
         }
-        .countdown h1 {
-            margin-bottom: 20px;
-        }
-        .time {
-            font-size: 2em;
-            font-weight: bold;
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+                color: #ff0000;
+                background-color: #000;
+            }
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="countdown">
-        <h1>Czas do końca szkoły</h1>
-        <div class="time" id="countdown1"></div>
-    </div>
-
-    <div class="countdown">
-        <h1>Czas do ogniska w Motańcu</h1>
-        <div class="time" id="countdown2"></div>
-    </div>
-
-    <script>
-        function updateCountdowns() {
-            const endDate1 = new Date('June 21, 2024 09:00:00').getTime();
-            const endDate2 = new Date('June 21, 2024 17:00:00').getTime();
-            const now = new Date().getTime();
-
-            const distance1 = endDate1 - now;
-            const distance2 = endDate2 - now;
-
-            const days1 = Math.floor(distance1 / (1000 * 60 * 60 * 24));
-            const hours1 = Math.floor((distance1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes1 = Math.floor((distance1 % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000);
-
-            const days2 = Math.floor(distance2 / (1000 * 60 * 60 * 24));
-            const hours2 = Math.floor((distance2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes2 = Math.floor((distance2 % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds2 = Math.floor((distance2 % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown1').innerHTML =
-                `${days1} dni ${hours1} godzin ${minutes1} minut ${seconds1} sekund`;
-
-            document.getElementById('countdown2').innerHTML =
-                `${days2} dni ${hours2} godzin ${minutes2} minut ${seconds2} sekund`;
-
-            if (distance1 < 0) {
-                clearInterval(x);
-                document.getElementById('countdown1').innerHTML = "Koniec szkoły!";
-            }
-
-            if (distance2 < 0) {
-                clearInterval(x);
-                document.getElementById('countdown2').innerHTML = "Czas na ognisko!";
-            }
-        }
-
-        const x = setInterval(updateCountdowns, 1000);
-    </script>
+    <div class="pulsing-text">Dusza Vadera</div>
 </body>
 </html>
