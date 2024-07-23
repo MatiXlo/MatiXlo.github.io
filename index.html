@@ -14,7 +14,18 @@
         }
         #editor {
             width: 100%;
-            height: 100vh;
+            height: 90vh;
+            border: none;
+            background-color: black;
+            color: lime;
+            resize: none;
+            outline: none;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #output {
+            width: 100%;
+            height: 10vh;
             border: none;
             background-color: black;
             color: lime;
@@ -27,8 +38,12 @@
 </head>
 <body>
     <textarea id="editor" placeholder="Wpisz swoje notatki tutaj..."></textarea>
+    <div id="output"></div>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.1.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.1.0/dist/skulpt-stdlib.js"></script>
     <script>
         const editor = document.getElementById('editor');
+        const output = document.getElementById('output');
 
         // Załaduj zapisane notatki
         editor.value = localStorage.getItem('notatki') || '';
@@ -37,6 +52,51 @@
         editor.addEventListener('input', () => {
             localStorage.setItem('notatki', editor.value);
         });
+
+        function builtinRead(x) {
+            if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                throw "Nie można załadować pliku '" + x + "'";
+            return Sk.builtinFiles["files"][x];
+        }
+
+        function runPythonCode(code) {
+            Sk.configure({ output: outf, read: builtinRead });
+            (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'output';
+
+            let myPromise = Sk.misceval.asyncToPromise(function() {
+                return Sk.importMainWithBody("<stdin>", false, code, true);
+            });
+
+            myPromise.then(function(mod) {
+                console.log('Kod zakończony');
+            }, function(err) {
+                outf(err.toString());
+            });
+        }
+
+        function outf(text) {
+            output.innerHTML += text + '\n';
+        }
+
+        editor.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const lines = editor.value.split('\n');
+                const lastLine = lines[lines.length - 1];
+                if (lastLine.trim() === 'PY12devtest') {
+                    output.innerHTML = 'Tryb Python aktywowany.\n';
+                    editor.value = '';
+                    editor.addEventListener('input', pythonMode);
+                }
+            }
+        });
+
+        function pythonMode() {
+            const lines = editor.value.split('\n');
+            if (lines.length > 0) {
+                const code = lines.join('\n');
+                runPythonCode(code);
+            }
+        }
     </script>
 </body>
 </html>
