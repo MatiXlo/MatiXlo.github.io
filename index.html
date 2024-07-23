@@ -33,6 +33,7 @@
             outline: none;
             padding: 10px;
             box-sizing: border-box;
+            overflow-y: scroll;
         }
     </style>
 </head>
@@ -44,13 +45,16 @@
     <script>
         const editor = document.getElementById('editor');
         const output = document.getElementById('output');
+        let pythonMode = false;
 
         // Załaduj zapisane notatki
         editor.value = localStorage.getItem('notatki') || '';
 
         // Zapisz notatki przy każdej zmianie
         editor.addEventListener('input', () => {
-            localStorage.setItem('notatki', editor.value);
+            if (!pythonMode) {
+                localStorage.setItem('notatki', editor.value);
+            }
         });
 
         function builtinRead(x) {
@@ -76,27 +80,25 @@
 
         function outf(text) {
             output.innerHTML += text + '\n';
+            output.scrollTop = output.scrollHeight;
         }
 
         editor.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
+                e.preventDefault(); // Zapobiega wstawieniu nowej linii
                 const lines = editor.value.split('\n');
-                const lastLine = lines[lines.length - 1];
-                if (lastLine.trim() === 'PY12devtest') {
+                const lastLine = lines[lines.length - 1].trim();
+
+                if (!pythonMode && lastLine === 'PY12devtest') {
                     output.innerHTML = 'Tryb Python aktywowany.\n';
                     editor.value = '';
-                    editor.addEventListener('input', pythonMode);
+                    pythonMode = true;
+                } else if (pythonMode) {
+                    runPythonCode(lastLine);
+                    editor.value = ''; // Wyczyść edytor po wykonaniu kodu
                 }
             }
         });
-
-        function pythonMode() {
-            const lines = editor.value.split('\n');
-            if (lines.length > 0) {
-                const code = lines.join('\n');
-                runPythonCode(code);
-            }
-        }
     </script>
 </body>
 </html>
