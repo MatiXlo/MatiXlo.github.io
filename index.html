@@ -1,104 +1,47 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notatnik CMD</title>
+    <title>Web File Manager</title>
     <style>
-        body {
-            background-color: black;
-            color: lime;
-            font-family: monospace;
-            margin: 0;
-            padding: 0;
-        }
-        #editor {
-            width: 100%;
-            height: 90vh;
-            border: none;
-            background-color: black;
-            color: lime;
-            resize: none;
-            outline: none;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        #output {
-            width: 100%;
-            height: 10vh;
-            border: none;
-            background-color: black;
-            color: lime;
-            resize: none;
-            outline: none;
-            padding: 10px;
-            box-sizing: border-box;
-            overflow-y: scroll;
-        }
+        body { font-family: Arial, sans-serif; }
+        .container { margin: 20px; }
+        .file-input { margin-bottom: 10px; }
     </style>
 </head>
 <body>
-    <textarea id="editor" placeholder="Wpisz swoje notatki tutaj..."></textarea>
-    <div id="output"></div>
-    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.1.0/dist/skulpt.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.1.0/dist/skulpt-stdlib.js"></script>
+    <div class="container">
+        <h1>Web File Manager</h1>
+        <input type="file" id="fileInput" class="file-input" multiple />
+        <button onclick="uploadFiles()">Upload Files</button>
+        <div id="status"></div>
+    </div>
+
     <script>
-        const editor = document.getElementById('editor');
-        const output = document.getElementById('output');
-        let pythonMode = false;
+        function uploadFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+            const status = document.getElementById('status');
+            const formData = new FormData();
 
-        // Załaduj zapisane notatki
-        editor.value = localStorage.getItem('notatki') || '';
-
-        // Zapisz notatki przy każdej zmianie
-        editor.addEventListener('input', () => {
-            if (!pythonMode) {
-                localStorage.setItem('notatki', editor.value);
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files[]', files[i]);
             }
-        });
 
-        function builtinRead(x) {
-            if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-                throw "Nie można załadować pliku '" + x + "'";
-            return Sk.builtinFiles["files"][x];
-        }
-
-        function runPythonCode(code) {
-            Sk.configure({ output: outf, read: builtinRead });
-            (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'output';
-
-            let myPromise = Sk.misceval.asyncToPromise(function() {
-                return Sk.importMainWithBody("<stdin>", false, code, true);
-            });
-
-            myPromise.then(function(mod) {
-                console.log('Kod zakończony');
-            }, function(err) {
-                outf(err.toString());
+            fetch('https://yourserver.com/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                status.innerText = 'Upload successful!';
+            })
+            .catch(error => {
+                status.innerText = 'Upload failed.';
+                console.error('Error:', error);
             });
         }
-
-        function outf(text) {
-            output.innerHTML += text + '\n';
-            output.scrollTop = output.scrollHeight;
-        }
-
-        editor.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Zapobiega wstawieniu nowej linii
-                const lines = editor.value.split('\n');
-                const lastLine = lines[lines.length - 1].trim();
-
-                if (!pythonMode && lastLine === 'PY12devtest') {
-                    output.innerHTML = 'Tryb Python aktywowany.\n';
-                    editor.value = '';
-                    pythonMode = true;
-                } else if (pythonMode) {
-                    runPythonCode(lastLine);
-                    editor.value = ''; // Wyczyść edytor po wykonaniu kodu
-                }
-            }
-        });
     </script>
 </body>
 </html>
