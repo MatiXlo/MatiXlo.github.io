@@ -1,4 +1,1 @@
-[--matipoint--]
-
-[Kody Na Klawiaturze]
-1. PY12devtest - włącza pythona
+# Trying to develop an webkit exploit with the help of Artifice exploit
