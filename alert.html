@@ -21,18 +21,20 @@
 <body>
     <h1 class="warning">matipoint wbił na twoj serwerek!</h1>
     <p>Proszę cię. dodaj hasła do serwera. Zainstaluj plugin na hasła/anty vpn ponieważ ktoś może to ci zrobić. ps nie rozwaliłem serwa!</p>
-    <audio autoplay loop>
+    
+    <button id="playAudio">Odtwórz dźwięk</button>
+    
+    <audio id="alertAudio" loop>
         <source src="alert.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
     
     <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        let audio = new Audio('alert.mp3');
-        audio.loop = true;
+    document.getElementById('playAudio').addEventListener('click', () => {
+        let audio = document.getElementById('alertAudio');
         audio.play().catch(error => console.log("Autoplay blocked:", error));
     });
-</script>
+    </script>
 
 </body>
 </html>
