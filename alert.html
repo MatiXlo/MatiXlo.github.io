@@ -25,5 +25,14 @@
         <source src="alert.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    
+    <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        let audio = new Audio('alert.mp3');
+        audio.loop = true;
+        audio.play().catch(error => console.log("Autoplay blocked:", error));
+    });
+</script>
+
 </body>
 </html>
