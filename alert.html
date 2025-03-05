@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serwer został zhackowany!</title>
+    <title>Po co było mnie wyzywać od złodzieja?</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,25 +16,53 @@
             font-size: 24px;
             font-weight: bold;
         }
+        .message-container {
+            margin-top: 20px;
+        }
+        .message-input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+        .message-button {
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1 class="warning">matipoint wbił na twoj serwerek!</h1>
-    <p>Proszę cię. dodaj hasła do serwera. Zainstaluj plugin na hasła/anty vpn ponieważ ktoś może to ci zrobić. ps nie rozwaliłem serwa!</p>
+    <h1 class="warning">matipoint wbił na twoj serwerek! x:</h1>
+    <p>"i ja jestem złodziejem? pomysły ukradzione ze serwerów.. ty mi nie dałeś co mam ci oddać. żegnaj.</p>
     
-    <button id="playAudio">Odtwórz dźwięk</button>
+    <button id="playAudio">🔊 Włącz dźwięk</button>
     
     <audio id="alertAudio" loop>
-        <source src="alert.mp3" type="audio/mpeg">
+        <source src="Not Like Us.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    
+    <div class="message-container">
+        <h2>Napisz do matipointa</h2>
+        <input type="text" id="messageInput" class="message-input" placeholder="Wpisz swoją wiadomość...">
+        <button class="message-button" onclick="saveMessage()">Wyślij</button>
+    </div>
     
     <script>
     document.getElementById('playAudio').addEventListener('click', () => {
         let audio = document.getElementById('alertAudio');
         audio.play().catch(error => console.log("Autoplay blocked:", error));
     });
+    
+    function saveMessage() {
+        let message = document.getElementById('messageInput').value;
+        if (message) {
+            localStorage.setItem('userMessage', message);
+            alert('Wiadomość zapisana!');
+        }
+    }
     </script>
-
 </body>
 </html>
