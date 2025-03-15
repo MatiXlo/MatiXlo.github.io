@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Grammy</title>
+    <style>
+        body {
+            background-color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: black;
+            font-size: 30px;
+            margin-top: 20vh;
+        }
+        input, button {
+            font-size: 20px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kto Był trzecią kobietą która wygrała Grammy dla najlepszego albumu rapowego?</h1>
+    <input type="text" id="answer" placeholder="Wpisz odpowiedź">
+    <button onclick="checkAnswer()">Login</button>
+    
+    <script>
+        function checkAnswer() {
+            let answer = document.getElementById('answer').value.trim();
+            if (answer.toLowerCase() === "doechii") {
+                window.location.href = "success.html";
+            } else {
+                alert("Niepoprawna odpowiedź!");
+            }
+        }
+    </script>
+</body>
+</html>
