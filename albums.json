@@ -1,0 +1,22 @@
+[
+  {
+    "album": "Bread Gang",
+    "artist": "BREAD GANG",
+    "folder": "BREAD_GANG",
+    "cover": "music/BREAD_GANG/cover.jpg",
+    "tracks": [
+      { "title": "BREAD GANG (Song)", "file": "track1.mp3" },
+      { "title": "Meet The Buns", "file": "track2.mp3" },
+      { "title": "Many Buns", "file": "track3.mp3" }
+    ]
+  },
+  {
+    "album": "Bread Alright (Alternative Version)",
+    "artist": "BREAD GANG",
+    "folder": "Bread_Alright",
+    "cover": "music/Bread_Alright/cover.jpg",
+    "tracks": [
+      { "title": "Bread Alrigt (Alternative Version)", "file": "track1.mp3" }
+    ]
+  }
+]

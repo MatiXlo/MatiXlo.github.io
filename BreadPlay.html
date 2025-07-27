@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bread Play</title>
+  <style>
+  
+  button.repeat {
+  background: transparent;
+  font-size: 24px;
+  color: #888;
+  border-radius: 6px;
+  padding: 6px 10px;
+  transition: color 0.3s ease;
+}
+
+button.repeat.active {
+  color: #1db954; /* Spotify green */
+}
+    /* Reset and basics */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #121212;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: #1db954;
+      color: black;
+      user-select: none;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1rem;
+      gap: 1rem;
+      justify-content: center;
+      background: #181818;
+    }
+
+    /* Album list */
+    #albumList {
+      max-width: 300px;
+      width: 100%;
+      background: #282828;
+      border-radius: 8px;
+      overflow-y: auto;
+      max-height: 500px;
+      padding: 0;
+      list-style: none;
+      margin: 0;
+    }
+    #albumList li {
+      padding: 12px 16px;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s;
+    }
+    #albumList li:hover,
+    #albumList li.active {
+      background: #1db954;
+      color: black;
+      font-weight: 700;
+    }
+
+    /* Player */
+    .player {
+      flex: 1;
+      max-width: 480px;
+      background: #282828;
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cover {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    }
+    .album-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      text-align: center;
+    }
+    .artist-name {
+      font-size: 1rem;
+      margin: 4px 0 1rem;
+      color: #b3b3b3;
+      text-align: center;
+    }
+
+    /* Track list */
+    #trackList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      border-top: 1px solid #444;
+      border-bottom: 1px solid #444;
+    }
+    #trackList li {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+      transition: background 0.3s;
+    }
+    #trackList li:hover {
+      background: #333;
+    }
+    #trackList li.active {
+      background: #1db954;
+      color: black;
+      font-weight: 700;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    button {
+      background: #1db954;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: black;
+      font-size: 20px;
+      transition: background 0.3s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button:hover {
+      background: #1ed760;
+    }
+    button.repeat.active {
+      background: #1ed760;
+    }
+
+    /* Progress bar */
+    .progress-container {
+      width: 100%;
+      background: #444;
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .progress {
+      background: #1db954;
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+
+    /* Time display */
+    .time {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 0.8rem;
+      color: #bbb;
+      margin-top: 4px;
+    }
+
+    /* Volume */
+    .volume-container {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 200px;
+      user-select: none;
+    }
+    input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      background: #444;
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #1db954;
+      cursor: pointer;
+      margin-top: -4px;
+      border: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+      #albumList {
+        max-width: 100%;
+        max-height: 200px;
+      }
+      .player {
+        max-width: 100%;
+        width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>Bread Play</header>
+
+<main>
+  <ul id="albumList" aria-label="Albums"></ul>
+
+  <section class="player" aria-label="Music player">
+    <img id="cover" class="cover" src="" alt="Album cover" />
+    <h2 class="album-title" id="albumTitle">Select an album</h2>
+    <p class="artist-name" id="artistName"></p>
+
+    <ul id="trackList" aria-label="Tracks"></ul>
+
+    <div class="controls" role="group" aria-label="Playback controls">
+      <button id="prev" aria-label="Previous track">⏮</button>
+      <button id="play" aria-label="Play/Pause">▶️</button>
+      <button id="next" aria-label="Next track">⏭</button>
+      <button id="repeat" class="repeat" aria-label="Toggle repeat" title="Repeat Off">🔁</button>
+    </div>
+
+    <div class="progress-container" aria-label="Track progress bar" role="slider" tabindex="0">
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="time">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+
+    <div class="volume-container" aria-label="Volume control">
+      <label for="volumeSlider">Volume</label>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
+    </div>
+  </section>
+</main>
+
+<audio id="audio"></audio>
+
+<script>
+  const albumListEl = document.getElementById('albumList');
+  const trackListEl = document.getElementById('trackList');
+  const coverEl = document.getElementById('cover');
+  const albumTitleEl = document.getElementById('albumTitle');
+  const artistNameEl = document.getElementById('artistName');
+
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('play');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const repeatBtn = document.getElementById('repeat');
+  const progressContainer = document.querySelector('.progress-container');
+  const progressEl = document.getElementById('progress');
+  const currentTimeEl = document.getElementById('currentTime');
+  const durationEl = document.getElementById('duration');
+  const volumeSlider = document.getElementById('volumeSlider');
+
+  let albums = [];
+  let currentAlbumIndex = -1;
+  let currentTrackIndex = 0;
+  let isPlaying = false;
+  let isRepeat = false;
+
+  // Format time seconds to mm:ss
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  // Load albums.json
+  fetch('albums.json')
+    .then(res => res.json())
+    .then(data => {
+      albums = data;
+      renderAlbumList();
+    })
+    .catch(e => {
+      albumTitleEl.textContent = "Failed to load albums";
+      console.error('Error loading albums.json', e);
+    });
+
+  // Render album list
+  function renderAlbumList() {
+    albumListEl.innerHTML = '';
+    albums.forEach((album, index) => {
+      const li = document.createElement('li');
+      li.textContent = `${album.album} — ${album.artist}`;
+      li.tabIndex = 0;
+      li.setAttribute('role', 'button');
+      li.addEventListener('click', () => selectAlbum(index));
+      li.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectAlbum(index);
+        }
+      });
+      albumListEl.appendChild(li);
+    });
+  }
+
+  // Select album
+  function selectAlbum(index) {
+    if (index === currentAlbumIndex) return;
+    currentAlbumIndex = index;
+    currentTrackIndex = 0;
+
+    // Highlight selected album
+    [...albumListEl.children].forEach((li, i) => {
+      li.classList.toggle('active', i === index);
+    });
+
+    loadAlbum(index);
+  }
+
+  // Load album data
+  function loadAlbum(index) {
+    const album = albums[index];
+    coverEl.src = album.cover;
+    coverEl.alt = `${album.album} cover`;
+    albumTitleEl.textContent = album.album;
+    artistNameEl.textContent = album.artist;
+
+    // Build track list
+    trackListEl.innerHTML = '';
+    album.tracks.forEach((track, i) => {
+      const li = document.createElement('li');
+      li.textContent = track.title;
+      li.tabIndex = 0;
+      li.setAttribute('role', 'button');
+      li.addEventListener('click', () => selectTrack(i));
+      li.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectTrack(i);
+        }
+      });
+      trackListEl.appendChild(li);
+    });
+
+    loadTrack(0);
+  }
+
+  // Select track
+  function selectTrack(index) {
+    if (index === currentTrackIndex) return;
+    loadTrack(index);
+    playTrack();
+  }
+
+  // Load track
+  function loadTrack(index) {
+    currentTrackIndex = index;
+    const album = albums[currentAlbumIndex];
+    const track = album.tracks[index];
+    audio.src = `music/${album.folder}/${track.file}`;
+
+    // Highlight selected track
+    [...trackListEl.children].forEach((li, i) => {
+      li.classList.toggle('active', i === index);
+    });
+
+    // Reset progress bar
+    progressEl.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+    durationEl.textContent = '0:00';
+  }
+
+  // Play track
+  function playTrack() {
+    if (!audio.src) return;
+    audio.play();
+    isPlaying = true;
+    playBtn.textContent = '⏸';
+  }
+
+  // Pause track
+  function pauseTrack() {
+    audio.pause();
+    isPlaying = false;
+    playBtn.textContent = '▶️';
+  }
+
+  // Toggle play/pause
+  playBtn.addEventListener('click', () => {
+    if (isPlaying) {
+      pauseTrack();
+    } else {
+      playTrack();
+    }
+  });
+
+  // Prev track
+  prevBtn.addEventListener('click', () => {
+    if (currentTrackIndex > 0) {
+      loadTrack(currentTrackIndex - 1);
+      playTrack();
+    }
+  });
+
+  // Next track
+  nextBtn.addEventListener('click', () => {
+    const album = albums[currentAlbumIndex];
+    if (currentTrackIndex < album.tracks.length - 1) {
+      loadTrack(currentTrackIndex + 1);
+      playTrack();
+    }
+  });
+
+  // Toggle repeat mode
+repeatBtn.addEventListener('click', () => {
+  isRepeat = !isRepeat;
+  repeatBtn.classList.toggle('active', isRepeat);
+  repeatBtn.title = isRepeat ? 'Repeat On' : 'Repeat Off';
+  repeatBtn.textContent = isRepeat ? '🔂' : '🔁'; // Change icon between repeat one (🔂) and repeat all (🔁)
+});
+  // Update progress bar as audio plays
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const progressPercent = (audio.currentTime / audio.duration) * 100;
+    progressEl.style.width = `${progressPercent}%`;
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+    durationEl.textContent = formatTime(audio.duration);
+  });
+
+  // When track ends, play next automatically or repeat
+  audio.addEventListener('ended', () => {
+    const album = albums[currentAlbumIndex];
+    if (isRepeat) {
+      audio.currentTime = 0;
+      playTrack();
+    } else if (currentTrackIndex < album.tracks.length - 1) {
+      loadTrack(currentTrackIndex + 1);
+      playTrack();
+    } else {
+      pauseTrack();
+    }
+  });
+
+  // Click progress bar to seek
+  progressContainer.addEventListener('click', e => {
+    const width = progressContainer.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audio.duration;
+    if (!duration) return;
+    audio.currentTime = (clickX / width) * duration;
+  });
+
+  // Keyboard control on progress bar (left/right arrow to seek)
+  progressContainer.addEventListener('keydown', e => {
+    if (!audio.duration) return;
+    if (e.key === 'ArrowLeft') {
+      audio.currentTime = Math.max(0, audio.currentTime - 5);
+      e.preventDefault();
+    }
+    if (e.key === 'ArrowRight') {
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+      e.preventDefault();
+    }
+  });
+
+  // Volume control
+  volumeSlider.addEventListener('input', () => {
+    audio.volume = volumeSlider.value;
+  });
+
+</script>
+
+</body>
+</html>
