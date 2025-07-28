@@ -34,6 +34,17 @@
       { "title": "07 BOYYYYYYYYY", "file": "track7.mp3" }
     ]
   },
+    {
+    "album": "Nie Wydane, Nie zalbumizowane",
+    "artist": "BREAD GANG",
+    "folder": "UN",
+    "cover": "",
+    "tracks": [
+      { "title": "01 Chleb Paradise", "file": "track1.mp3" },
+      { "title": "02 BREADFACE", "file": "track2.mp3" },
+      { "title": "03 Bread Alright", "file": "track3.mp3" }
+    ]
+  },
   {
     "album": "Bread Alright (Alternative Version)",
     "artist": "BREAD GANG",
